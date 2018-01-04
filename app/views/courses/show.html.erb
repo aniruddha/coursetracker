@@ -1,0 +1,68 @@
+<div class="row">
+	<div class="col-md-12">
+		<ol class="breadcrumb">
+		  <li><a href="/">Home</a></li>
+		  <li><a href="/courses">Courses</a></li>
+		  <li class="active"><%= @course.name %></li>
+		</ol>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-8">
+		<h2><%= @course.name %></h2>
+		<p class="text-justify"><%= @course.description %></p>
+		<p>
+  		<strong>Instructor:</strong>
+ 				 <%= link_to @course.instructor.name, instructor_path(@course.instructor_id)%>
+		</p>
+		<div class="jumbotron">
+ 		 <h1>Limited Seats!</h1>
+ 			 <p>New Batch begins from 11th Jan, 2018</p>
+ 			 
+ 			  <!-- Button trigger modal -->
+				<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#registrationForm">
+			 	 Register
+				</button>		
+
+				<!-- Modal -->
+				<div class="modal fade" id="registrationForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+				  <div class="modal-dialog" role="document">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				        <h4 class="modal-title" id="myModalLabel">Registration Form</h4>
+				      </div>
+				      <div class="modal-body">
+				      	<span id="success"></span>
+				      	<span id="error"></span>
+				       	<%= render './students/form' %>
+				      </div>
+				      
+				    </div>
+				  </div>
+				</div>
+				</div>
+
+	</div>
+	<div class="col-md-4">
+		<% if user_signed_in? %>
+	<h2>Students Enrolled </h2>
+	<% if @course.students.empty? %>
+		<p> No students enrolled yet </p>
+	<% else %>
+		<ul>
+			<% @course.students.each do |student| %>
+				<li><%= link_to student.name, student_path(student.id) %> </li>
+			<% end %>
+		</ul>
+	<% end %>
+<% end %>
+
+<% if user_signed_in? %> 
+	<%= link_to 'Edit', edit_course_path(@course) %> |
+<% end %>		
+	</div>
+</div>
+
+<%= link_to 'Back', courses_path %>

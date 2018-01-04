@@ -1,0 +1,37 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @instructor.name %>
+</p>
+
+<p>
+  <strong>Email:</strong>
+  <%= @instructor.email %>
+</p>
+
+<p>
+  <strong>Bio:</strong>
+  <%= @instructor.bio %>
+</p>
+
+<p>
+  <strong>Mobile:</strong>
+  <%= @instructor.mobile %>
+</p>
+
+<h2>Courses Taken : </h2>
+<% if @instructor.courses.empty? %>
+	<b> No course has been added yet </b><br/>
+<% else %>
+	<ul> 
+		<% @instructor.courses.each do |course| %> 
+			<li><%= link_to course.name, course_path(course.id) %></li>
+		<% end %>
+	</ul>
+<% end %>
+
+<% if user_signed_in? && (can? :update, @instructor) %>
+<%= link_to 'Edit', edit_instructor_path(@instructor) %> |
+<% end %>
+<%= link_to 'Back', instructors_path %>

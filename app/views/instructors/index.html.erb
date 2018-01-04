@@ -1,0 +1,54 @@
+<div class="row">
+  <div class="col-md-8">
+    <div class="page-header">
+      <h2>Listing Instructors <small><%= @instructors.length %></small></h2>
+    </div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Mobile</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @instructors.each do |instructor| %>
+      <tr>
+        <td><%= instructor.name %></td>
+        <td><%= instructor.email %></td>
+        <td><%= instructor.mobile %></td>
+        <td><%= link_to 'Show', instructor %></td>
+        <% if user_signed_in? %>
+          <% if can? :update, instructor %>
+            <td><%= link_to 'Edit', edit_instructor_path(instructor) %></td>
+          <% end %>
+          <% if can? :destroy, instructor %>
+            <td><%= link_to 'Destroy', instructor, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <% end %>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<% if user_signed_in? && (can? :create, Instructor.new) %>
+  <%= link_to 'New Instructor', new_instructor_path %>
+<% end %>
+  </div>
+  <div class="col-md-4">
+    <div class="page-header">
+      <h2>Courses Offered</h2>
+    </div>
+      <ul class="list-group">
+        <% Course.all.each do |course| %>
+          <li class="list-group-item"><%= link_to course.name, course %></li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>

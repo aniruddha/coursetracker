@@ -1,0 +1,22 @@
+<tr id="row_<%= @course.id %>">
+             <td><%= link_to @course.name, @course %></td>
+             <td><%= @course.description %></td>
+             <td><%= @course.instructor.name %></td>
+            
+             <% if user_signed_in? %>
+               <% if can? :update, @course %>
+                 <td>
+                   <%= link_to edit_course_path(@course) do  %>
+                    <i class="glyphicon glyphicon-pencil"></i>
+                   <% end %>
+                 
+               <% end %>
+               <% if can? :destroy, @course %>
+                 
+                  <%= link_to @course, method: :delete, data: { confirm: 'Are you sure?' }, remote: true do %>
+                    <i class="glyphicon glyphicon-trash"></i>
+                  <% end %>
+                  </td>
+               <% end %>
+             <% end %>
+           </tr>

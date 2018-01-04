@@ -1,0 +1,88 @@
+<div class="row">
+  <div class="col-md-8">
+    <div class="page-header">
+      <h2><span class="glyphicon glyphicon-th-list"></span> Listing Courses</h2>
+    </div>
+     <table class="table table-striped" id="courseList">
+       <thead>
+         <tr>
+           <th>Name</th>
+           <th>Description</th>
+           <th>Instructor</th>
+           <th>Students Enrolled</th>
+           <th></th>
+         </tr>
+       </thead>
+
+       <tbody>
+         <% @courses.each do |course| %>
+           <tr id="row_<%= course.id %>">
+             <td><%= link_to course.name, course %></td>
+             <td><%= course.description %></td>
+             <td><%= course.instructor.name %></td>
+             <td><%= course.students.length %></td>
+            
+             <% if user_signed_in? %>
+               <% if can? :update, course %>
+                 <td>
+                   <%= link_to edit_course_path(course) do  %>
+                    <i class="glyphicon glyphicon-pencil"></i>
+                   <% end %>
+                 
+               <% end %>
+               <% if can? :destroy, course %>
+                 
+                  <%= link_to course, method: :delete, data: { confirm: 'Are you sure?' }, remote: true do %>
+                    <i class="glyphicon glyphicon-trash"></i>
+                  <% end %>
+                  </td>
+               <% end %>
+             <% end %>
+           </tr>
+         <% end %>
+       </tbody>
+     </table>
+
+  </div>
+
+  <div class="col-md-4">
+    <% if user_signed_in? && (can? :create, Course.new)  %>
+      <div class="page-header">
+        <h2>Add Course</h2>
+      </div>
+      <div id="error">
+        
+      </div>
+       <%= render 'form' %>
+    <% end %>
+  </div>
+</div>
+<br>
+
+<% data = {} 
+  @courses.each do |course|
+    data[course.name] = course.students.length
+  end
+%>
+
+<div class="row">
+  <div class="col-md-6">
+    <h5>Pie Chart</h5>
+    <%= pie_chart(data) %>
+  </div>
+  <div class="col-md-6">
+    <h5>Column Chart</h5>
+    <%= column_chart(data) %>
+  </div>
+  <div class="col-md-6">
+    <h5>Line Chart</h5>
+    <%= line_chart(data) %>
+  </div>
+  <div class="col-md-6">
+     <h5>Bar Chart</h5>
+    <%= bar_chart(data) %>
+  </div>
+</div>
+
+
+

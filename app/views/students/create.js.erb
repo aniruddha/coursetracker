@@ -1,0 +1,9 @@
+<% if @student.errors.any? %>
+	$('#error').html("<%= escape_javascript render('errors')%>")
+<% else %>
+	$('#new_student')[0].remove();
+	$('#success').html("<p class='alert alert-success'>Thank you for showing interest in the course. Our representative will get back to you within 24 hours.</p>");
+	setTimeout(function(){
+		$('#registrationForm').modal('hide');
+	}, 4000);
+<% end %>

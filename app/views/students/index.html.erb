@@ -1,0 +1,51 @@
+<div class="row">
+  <div class="col-md-8">
+   <div class="page-header">
+      <h2> Listing Students <small><%= @students.length %></small></h2>
+   </div>
+    <table class="table" id="tableList">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Major</th>
+          <th>Mobile</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% @students.each do |student| %>
+          <tr>
+            <td><%= student.name %></td>
+            <td><%= student.email %></td>
+            <td><%= student.major %></td>
+            <td><%= student.mobile %></td>
+            <td><%= link_to 'Show', student %> 
+            <% if user_signed_in? %>
+              <% if can? :update, student %>
+                <%= link_to 'Edit', edit_student_path(student) %> 
+              <% end %>
+              <% if can? :destroy, student %>
+                 <%= link_to 'Destroy', student, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+              <% end %>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <% if user_signed_in? && (can? :create, Student.new) %>
+      <%= link_to new_student_path, class: "btn btn-primary" do %>
+        <i class="glyphicon glyphicon-plus"></i> Add Student
+      <% end %>
+    <% end %>
+
+  </div>
+
+  <div class="col-md-4">
+
+  </div>
+</div>
+
+

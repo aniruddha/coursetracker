@@ -1,0 +1,39 @@
+<%= form_for(@student, remote: true) do |f| %>
+  <div class="form-group">
+    <%= f.label :name %><br>
+    <%= f.text_field :name, class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= f.label :email %><br>
+    <%= f.text_field :email, class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= f.label :major %><br>
+    <%= f.text_field :major, class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= f.label :mobile %><br>
+    <%= f.text_field :mobile, class: "form-control" %>
+  </div>
+
+  <% if controller.controller_name == "courses" %>
+    <h4> Course Selected : <%= @course.name %></h4>
+    <input type="hidden" value="<%= @course.id %>" name="student[course_ids][]">
+  <% else %>
+  <h4>Select Courses</h4>
+    <div class="checkbox">
+      <%= f.collection_check_boxes :course_ids, Course.all, :id, :name do |course| %>
+      <label>
+          <%= course.check_box %>
+          <%= course.text %>
+      </label>
+      <br/>
+   <% end %>
+  </div>
+  <% end %>
+  
+  
+  <div class="actions">
+    <%= f.submit "submit", class: "btn btn-primary" %> or <%= link_to "Back", students_path %>
+  </div>
+<% end %>

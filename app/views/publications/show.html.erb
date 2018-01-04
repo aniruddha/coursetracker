@@ -1,0 +1,26 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @publication.title %>
+</p>
+
+<p>
+  <strong>Body:</strong>
+  <%= @publication.body %>
+</p>
+
+<p>
+  <strong>Url:</strong>
+  <%= @publication.url %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @publication.user_id %>
+</p>
+
+<% if user_signed_in? && (can? :update, @publication) %>
+	<%= link_to 'Edit', edit_publication_path(@publication) %> |
+<% end %>
+<%= link_to 'Back', publications_path %>
