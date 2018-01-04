@@ -65,6 +65,8 @@
   end
 %>
 
+
+<% if current_user.role? "admin" %>
 <div class="row">
   <div class="col-md-6">
     <h5>Pie Chart</h5>
@@ -83,6 +85,7 @@
     <%= bar_chart(data) %>
   </div>
 </div>
+<% end %>
 
 
 
